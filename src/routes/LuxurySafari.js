@@ -1,5 +1,5 @@
 import express from "express";
-import Safari from "../models/Safari.js";
+import LuxurySafari from "../models/LuxurySafari.js";
 import auth from "../middleware/auth.js";
 import upload from "../middleware/cloudinaryStorage.js";
 
@@ -8,7 +8,7 @@ const router = express.Router();
 // GET ALL SAFARIS (Frontend)
 router.get("/", async (req, res) => {
   try {
-    const safaris = await Safari.find().sort({ createdAt: -1 });
+    const safaris = await LuxurySafari.find().sort({ createdAt: -1 });
     res.json(safaris);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -18,10 +18,10 @@ router.get("/", async (req, res) => {
 // GET SINGLE SAFARI
 router.get("/:id", async (req, res) => {
   try {
-    const safari = await Safari.findById(req.params.id);
+    const safari = await LuxurySafari.findById(req.params.id);
 
     if (!safari) {
-      return res.status(404).json({ message: "Safari not found" });
+      return res.status(404).json({ message: "Luxury Safari not found" });
     }
 
     res.json(safari);
@@ -37,9 +37,9 @@ router.put(
   upload.array("safari_images", 10), // max 10 images
   async (req, res) => {
     try {
-      const existingSafari = await Safari.findById(req.params.id);
+      const existingSafari = await LuxurySafari.findById(req.params.id);
       if (!existingSafari) {
-        return res.status(404).json({ message: "Safari not found" });
+        return res.status(404).json({ message: "Luxury Safari not found" });
       }
 
       // Extract uploaded image URLs
@@ -54,13 +54,13 @@ router.put(
             : existingSafari.safari_images,
       };
 
-      const safari = await Safari.findByIdAndUpdate(
+      const safari = await LuxurySafari.findByIdAndUpdate(
         req.params.id,
         updatedData,
         { new: true }
       );
 
-      res.json({ message: "Safari updated", safari });
+      res.json({ message: "Luxury Safari updated", safari });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -69,8 +69,8 @@ router.put(
 // DELETE SAFARI
 router.delete("/:id", auth, async (req, res) => {
   try {
-    await Safari.findByIdAndDelete(req.params.id);
-    res.json({ message: "Safari deleted" });
+    await LuxurySafari.findByIdAndDelete(req.params.id);
+    res.json({ message: "Luxury Safari deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -102,7 +102,7 @@ router.post(
       const images = req.files["safari_images"]?.map(file => file.path) || [];
       const videos = req.files["safari_video"]?.map(file => file.path) || [];
 
-      const safari = new Safari({
+      const luxurySafari = new LuxurySafari({
         safari_title,
         safari_travel_locations: safari_travel_locations?.split(",") || [],
         safari_country: safari_country?.split(",") || [],
@@ -118,9 +118,9 @@ router.post(
         
       });
 
-      await safari.save();
+      await luxurySafari.save();
 
-      res.status(201).json({ message: "Safari created successfully", safari });
+      res.status(201).json({ message: "Luxury Safari created successfully", luxurySafari });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

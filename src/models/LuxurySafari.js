@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const safariSchema = new mongoose.Schema(
+const luxurySafariSchema = new mongoose.Schema(
   {
     safari_title: { type: String, required: true },
     safari_travel_locations: [String],
@@ -19,4 +19,4 @@ const safariSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Safari", safariSchema);
+export default mongoose.model("LuxurySafari", luxurySafariSchema);
