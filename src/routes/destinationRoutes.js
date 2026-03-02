@@ -8,7 +8,7 @@ import {
 } from "../controllers/destinationController.js";
 
 import auth from "../middleware/auth.js";
-import upload from "../middleware/upload.js";
+import upload from "../middleware/cloudinaryStorage.js";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.get("/:id", getSingleDestination);
 // ADMIN
 router.post(
   "/",
-  protectAdmin,
+  auth,
   upload.fields([
     { name: "destination_images" },
     { name: "destination_video" },
