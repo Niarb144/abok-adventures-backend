@@ -9,6 +9,7 @@ export const createDestination = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
+  console.log("BODY:", req.body);
 };
 
 // Get all destinations, sorted by creation date (newest first)

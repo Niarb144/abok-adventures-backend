@@ -8,6 +8,7 @@ import {
 } from "../controllers/destinationController.js";
 
 import auth from "../middleware/auth.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -16,7 +17,15 @@ router.get("/", getAllDestinations);
 router.get("/:id", getSingleDestination);
 
 // ADMIN
-router.post("/", auth, createDestination);
+router.post(
+  "/",
+  protectAdmin,
+  upload.fields([
+    { name: "destination_images" },
+    { name: "destination_video" },
+  ]),
+  createDestination
+);
 router.put("/:id", auth, updateDestination);
 router.delete("/:id", auth, deleteDestination);
 
