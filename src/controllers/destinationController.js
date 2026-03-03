@@ -4,11 +4,33 @@ import Safari from "../models/Safari.js";
 // Create a new destination
 export const createDestination = async (req, res) => {
   try {
-    const destination = await TourDestination.create(req.body);
-    res.status(201).json(destination);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+        const {
+          destination_title,
+          destination_country,
+          destination_description,
+          destination_facts,
+          destination_activities,
+        } = req.body;
+  
+        const images = req.files["destination_images"]?.map(file => file.path) || [];
+        const videos = req.files["destination_video"]?.map(file => file.path) || [];
+  
+        const destination = new TourDestination({
+          destination_title,
+          destination_country,
+          destination_description,
+          destination_facts: destination_facts?.split("#") || [],
+          destination_activities: destination_activities?.split("#") || [],
+          destination_images: images,
+          destination_video: videos,
+        });
+  
+        await destination.save();
+  
+        res.status(201).json({ message: "Destination created successfully", destination });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
   console.log("BODY:", req.body);
 };
 
