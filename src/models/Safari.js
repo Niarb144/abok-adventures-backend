@@ -6,7 +6,7 @@ const safariSchema = new mongoose.Schema(
   {
     safari_title: { type: String, required: true },
 
-    safari_destinations: [
+    safari_travel_locations: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "TourDestination",
