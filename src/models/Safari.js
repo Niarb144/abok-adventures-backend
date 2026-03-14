@@ -6,14 +6,7 @@ const safariSchema = new mongoose.Schema(
   {
     safari_title: { type: String, required: true },
 
-    safari_travel_locations: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "TourDestination",
-        required: true,
-      },
-    ],
-
+    safari_travel_locations: [String],
     safari_country: [String],
     safari_overview: String,
     safari_video: [String],
