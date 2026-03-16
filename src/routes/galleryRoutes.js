@@ -6,7 +6,7 @@ import cloudinary from "../config/cloudinary.js";
 const router = express.Router();
 
 // Upload media to gallery
-router.post("/upload", upload.single("media"), async (req, res) => {
+router.post("/upload", upload.array("media", 20), async (req, res) => {
   try {
 
     const file = req.file;
