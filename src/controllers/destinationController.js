@@ -7,6 +7,7 @@ export const createDestination = async (req, res) => {
         const {
           destination_title,
           destination_country,
+          destination_location,
           destination_description,
           destination_facts,
           destination_activities,
@@ -18,6 +19,7 @@ export const createDestination = async (req, res) => {
         const destination = new TourDestination({
           destination_title,
           destination_country,
+          destination_location,
           destination_description,
           destination_facts: destination_facts?.split("#") || [],
           destination_activities: destination_activities?.split("#") || [],

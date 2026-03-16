@@ -4,6 +4,7 @@ const tourDestinationSchema = new mongoose.Schema(
   {
     destination_title: { type: String, required: true },
     destination_country: [String],
+    destination_location: String,
     destination_description: String,
     destination_video: [String],
     destination_images: [String],
