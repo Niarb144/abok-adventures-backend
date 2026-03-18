@@ -13,8 +13,8 @@ export const createDestination = async (req, res) => {
           destination_activities,
         } = req.body;
   
-        const images = req.file["destination_images"]?.map(file => file.path) || [];
-        const videos = req.file["destination_video"]?.map(file => file.path) || [];
+        const images = req.files["destination_images"]?.map(file => file.path) || [];
+        const videos = req.files["destination_video"]?.map(file => file.path) || [];
   
         const destination = new TourDestination({
           destination_title,
