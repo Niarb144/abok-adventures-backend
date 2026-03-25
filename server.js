@@ -10,6 +10,7 @@ import luxurySafariRoutes from "./src/routes/LuxurySafari.js";
 import destinationRoutes from "./src/routes/destinationRoutes.js";
 import galleryRoutes from "./src/routes/galleryRoutes.js";
 import hotelRoutes from "./src/routes/hotelRoutes.js";
+import blogRoute from "./src/routes/blogRoute.js";
 
 connectDB();
 
@@ -24,6 +25,7 @@ app.use("/api/luxury-safaris", luxurySafariRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/hotels", hotelRoutes);
+app.use("/api/blogs", blogRoute);
 
 app.get("/", (req, res) => {
   res.send("API running...");
