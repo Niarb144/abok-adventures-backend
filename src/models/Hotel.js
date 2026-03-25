@@ -6,7 +6,7 @@ const hotelSchema = new mongoose.Schema({
 
   hotel_country: String,
 
-  hotel_location:  String, // Google Maps embed URL or link
+  hotel_location:  {type: String}, // Google Maps embed URL or link
 
   hotel_images: [String],
 

@@ -14,34 +14,40 @@ router.get("/", async (req, res) => {
 // ADD HOTEL
 router.post(
   "/",
-  upload.array("hotel_images", 10),
+  upload.fields([
+    { name: "hotel_images", maxCount: 10 },
+    { name: "hotel_video", maxCount: 5 }
+  ]),
   async (req, res) => {
-    try {
-      const images = req.files || [];
-
-      const hotel = await Hotel.create({
-        hotel_title: req.body.hotel_title,
-        hotel_description: req.body.hotel_description,
-        hotel_location: req.body.hotel_location,
-
-        hotel_images: images.map(file => file.path),
-
-        hotel_details: req.body.hotel_details
-          ? req.body.hotel_details.split("#")
-          : [],
-
-        hotel_amenities: req.body.hotel_amenities
-          ? req.body.hotel_amenities.split("#")
-          : [],
-      });
-
-      res.json({ message: "Hotel created", hotel });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
+      try {
+        const {
+          hotel_title,
+          hotel_location,
+          hotel_description,
+          hotel_details,
+          hotel_amenities,
+        } = req.body;
+  
+        const images = req.files["hotel_images"]?.map(file => file.path) || [];
+        const videos = req.files["hotel_video"]?.map(file => file.path) || [];
+  
+        const hotel = new Hotel({
+          hotel_title,
+          hotel_location,
+          hotel_description,
+          hotel_images: images,
+          hotel_video: videos,
+          hotel_details: hotel_details?.split("#") || [],
+          hotel_amenities: hotel_amenities?.split("#") || [],
+        });
+  
+        await hotel.save();
+  
+        res.status(201).json({ message: "Hotel created successfully", hotel });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
     }
-  }
 );
 
 // UPDATE HOTEL
