@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
 });
 
 // Get all blog posts
-router.get("/api/blogs", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const blogs = await Blog.find();
     res.status(200).json(blogs);
