@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a single blog post by ID
-router.get("/api/blogs/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
     if (!blog) {
@@ -43,7 +43,7 @@ router.get("/api/blogs/:id", async (req, res) => {
 });
 
 // Update a blog post by ID
-router.put("/api/blogs/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const { title, content } = req.body;
     const blog = await Blog.find
@@ -58,7 +58,7 @@ router.put("/api/blogs/:id", async (req, res) => {
 });
 
 // Delete a blog post by ID
-router.delete("/api/blogs/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const blog = await Blog.findByIdAndDelete(req.params.id);
     if (!blog) {
