@@ -29,8 +29,8 @@ router.post(
           hotel_amenities,
         } = req.body;
   
-        const images = req.files["hotel_images"]?.map(file => file.path) || [];
-        const videos = req.files["hotel_video"]?.map(file => file.path) || [];
+        const images = req.files?.["hotel_images"]?.map(file => file.path) || [];
+        const videos = req.files?.["hotel_video"]?.map(file => file.path) || [];
   
         const hotel = new Hotel({
           hotel_title,
