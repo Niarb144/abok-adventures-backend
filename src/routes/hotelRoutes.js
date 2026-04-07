@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 
 // ADD HOTEL
 router.post(
-  "/",
+  "/",auth,
   upload.fields([
     { name: "hotel_images", maxCount: 10 },
     { name: "hotel_video", maxCount: 5 }
