@@ -23,6 +23,7 @@ router.post(
         const {
           hotel_title,
           hotel_location,
+          hotel_country,
           hotel_description,
           hotel_details,
           hotel_amenities,
@@ -34,6 +35,7 @@ router.post(
         const hotel = new Hotel({
           hotel_title,
           hotel_location,
+          hotel_country,
           hotel_description,
           hotel_images: images,
           hotel_video: videos,
