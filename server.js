@@ -27,7 +27,7 @@ app.use("/api/destinations", destinationRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/blogs", blogRoute);
-app.use("api/bookings", bookingRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");
