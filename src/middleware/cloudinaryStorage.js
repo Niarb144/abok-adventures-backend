@@ -10,7 +10,7 @@ const storage = new CloudinaryStorage({
     return {
       folder: "safaris",
       resource_type: "auto", // ✅ handles both images & videos
-      format: isVideo ? "mp4" : "png", // ✅ safer handling
+      // format: isVideo ? "mp4" : "png", // ✅ safer handling
     };
   },
 });

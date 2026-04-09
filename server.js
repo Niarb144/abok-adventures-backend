@@ -11,6 +11,7 @@ import destinationRoutes from "./src/routes/destinationRoutes.js";
 import galleryRoutes from "./src/routes/galleryRoutes.js";
 import hotelRoutes from "./src/routes/hotelRoutes.js";
 import blogRoute from "./src/routes/blogRoute.js";
+import bookingRoutes from "./src/routes/bookingRoutes.js";
 
 connectDB();
 
@@ -26,6 +27,7 @@ app.use("/api/destinations", destinationRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/blogs", blogRoute);
+app.use("api/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");
