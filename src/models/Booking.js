@@ -4,7 +4,7 @@ const bookingSchema = new mongoose.Schema(
   {
     safari: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "LuxurySafari", // your safari model
+      ref: "Safari", // your safari model
       required: true,
     },
     travelDate: {

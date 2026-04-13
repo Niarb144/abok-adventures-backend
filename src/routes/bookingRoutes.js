@@ -16,10 +16,14 @@ router.post("/", async (req, res) => {
 });
 
 // Get all bookings
+// GET all bookings
 router.get("/", async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .populate("safari") // get safari details
+      .populate({
+        path: "safari",
+        select: "safari_title price duration", // Optional: explicitly list fields you want
+      })
       .sort({ createdAt: -1 });
 
     res.json(bookings);
