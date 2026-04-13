@@ -7,6 +7,10 @@ const bookingSchema = new mongoose.Schema(
       ref: "Safari", // your safari model
       required: true,
     },
+    safariTitle: {
+      type:String,
+      required: true,
+    },
     travelDate: {
       type: Date,
       required: true,
