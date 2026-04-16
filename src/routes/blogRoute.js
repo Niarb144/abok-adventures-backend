@@ -1,5 +1,4 @@
 import express from "express";
-import upload from "../middleware/cloudinaryStorage.js";
 import Blog from "../models/Blog.js";
 import cloudinary from "../config/cloudinary.js";
 
