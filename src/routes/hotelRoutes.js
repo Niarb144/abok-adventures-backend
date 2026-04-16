@@ -1,7 +1,8 @@
 import express from "express";
 import Hotel from "../models/Hotel.js";
 import auth from "../middleware/auth.js";
-import upload from "../middleware/cloudinaryStorage.js";
+import upload from "../middleware/upload.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 const router = express.Router();
 
@@ -29,8 +30,17 @@ router.post(
           hotel_amenities,
         } = req.body;
   
-        const images = req.files?.["hotel_images"]?.map(file => file.path) || [];
-        const videos = req.files?.["hotel_video"]?.map(file => file.path) || [];
+        // ✅ Upload to Cloudinary
+      const uploadedImages = await Promise.all(
+        imageFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const uploadedVideos = await Promise.all(
+        videoFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const images = uploadedImages.map((img) => img.secure_url);
+      const videos = uploadedVideos.map((vid) => vid.secure_url);
   
         const hotel = new Hotel({
           hotel_title,

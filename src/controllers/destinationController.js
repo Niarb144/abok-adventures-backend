@@ -1,5 +1,6 @@
 import TourDestination from "../models/TourDestination.js";
 import Safari from "../models/Safari.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 // Create a new destination
 export const createDestination = async (req, res) => {
@@ -13,8 +14,17 @@ export const createDestination = async (req, res) => {
           destination_activities,
         } = req.body;
   
-        const images = req.files["destination_images"]?.map(file => file.path) || [];
-        const videos = req.files["destination_video"]?.map(file => file.path) || [];
+        // ✅ Upload to Cloudinary
+      const uploadedImages = await Promise.all(
+        imageFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const uploadedVideos = await Promise.all(
+        videoFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const images = uploadedImages.map((img) => img.secure_url);
+      const videos = uploadedVideos.map((vid) => vid.secure_url);
   
         const destination = new TourDestination({
           destination_title,

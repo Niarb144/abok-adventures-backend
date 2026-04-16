@@ -1,7 +1,8 @@
 import express from "express";
 import Safari from "../models/Safari.js";
 import auth from "../middleware/auth.js";
-import upload from "../middleware/cloudinaryStorage.js";
+import upload from "../middleware/upload.js"; 
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js"; 
 
 const router = express.Router();
 
@@ -30,11 +31,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
+// EDIT SAFARI
 router.put(
   "/:id",
   auth,
-  upload.array("safari_images", 10), // max 10 images
+  upload.array("safari_images", 10),
   async (req, res) => {
     try {
       const existingSafari = await Safari.findById(req.params.id);
@@ -42,10 +43,13 @@ router.put(
         return res.status(404).json({ message: "Safari not found" });
       }
 
-      // Extract uploaded image URLs
-      const newImages = req.files?.map((file) => file.path) || [];
+      // ✅ Upload new images if present
+      const uploadedImages = req.files?.length
+        ? await Promise.all(req.files.map((file) => uploadToCloudinary(file)))
+        : [];
 
-      // If user uploaded new images, replace or merge
+      const newImages = uploadedImages.map((img) => img.secure_url);
+
       const updatedData = {
         ...req.body,
         safari_images:
@@ -66,6 +70,7 @@ router.put(
     }
   }
 );
+
 // DELETE SAFARI
 router.delete("/:id", auth, async (req, res) => {
   try {
@@ -99,8 +104,20 @@ router.post(
         safari_optional_activities,
       } = req.body;
 
-      const images = req.files["safari_images"]?.map(file => file.path) || [];
-      const videos = req.files["safari_video"]?.map(file => file.path) || [];
+      const imageFiles = req.files["safari_images"] || [];
+      const videoFiles = req.files["safari_video"] || [];
+
+      // ✅ Upload to Cloudinary
+      const uploadedImages = await Promise.all(
+        imageFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const uploadedVideos = await Promise.all(
+        videoFiles.map((file) => uploadToCloudinary(file))
+      );
+
+      const images = uploadedImages.map((img) => img.secure_url);
+      const videos = uploadedVideos.map((vid) => vid.secure_url);
 
       const safari = new Safari({
         safari_title,
@@ -115,7 +132,6 @@ router.post(
         safari_pricing,
         safari_images: images,
         safari_video: videos,
-        
       });
 
       await safari.save();

@@ -8,7 +8,7 @@ import {
 } from "../controllers/destinationController.js";
 
 import auth from "../middleware/auth.js";
-import upload from "../middleware/cloudinaryStorage.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
