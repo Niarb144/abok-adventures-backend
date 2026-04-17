@@ -1,6 +1,6 @@
 import express from "express";
 import Booking from "../models/Booking.js";
-import { sendBookingEmail } from "../utils/sendBookingEmail.js";
+import { sendBookingEmail, sendApprovalEmail } from "../utils/sendBookingEmail.js";
 
 const router = express.Router();
 
