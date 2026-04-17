@@ -64,10 +64,10 @@ router.post("/", async (req, res) => {
   try {
     const booking = req.body;
 
-    // OPTIONAL: Save to DB
+    // Save if needed
     // await Booking.create(booking);
 
-    // 👉 SEND EMAIL HERE
+    // Send email via Resend
     await sendBookingEmail(booking);
 
     res.status(200).json({ message: "Booking successful" });

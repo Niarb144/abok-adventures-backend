@@ -1,31 +1,33 @@
-import nodemailer from "nodemailer";
+// /utils/sendBookingEmail.js
 
-const transporter = nodemailer.createTransport({
-  host: "abokadventures.com", // or smtp.yourprovider.com
-  port: 465, // usually 465 (SSL) or 587 (TLS)
-  secure: true, // true for 465
-  auth: {
-    user: "booking@abokadventures.com",
-    pass: process.env.EMAIL_PASS,
-  },
-});
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendBookingEmail = async (data) => {
-  const mailOptions = {
-    from: "booking@adbokadventures.com",
-    to: "info@abokadventures.com", // YOU receive the booking
+  await resend.emails.send({
+    from: "Abok Adventures <info@abokadventures.com>",
+    to: ["niarbyddet@gmail.com"], // you receive booking
     subject: `New Booking - ${data.safariTitle}`,
-    html: `
-      <h2>New Safari Booking</h2>
-      <p><strong>Safari:</strong> ${data.safariTitle}</p>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Phone:</strong> ${data.phone}</p>
-      <p><strong>Date:</strong> ${data.travelDate}</p>
-      <p><strong>Adults:</strong> ${data.adults}</p>
-      <p><strong>Children:</strong> ${data.children}</p>
-    `,
-  };
 
-  await transporter.sendMail(mailOptions);
+    html: `
+      <div style="font-family: Arial; padding: 20px;">
+        <h2 style="color:#8B4513;">New Safari Booking</h2>
+
+        <p><strong>Safari:</strong> ${data.safariTitle}</p>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Date:</strong> ${data.travelDate}</p>
+        <p><strong>Adults:</strong> ${data.adults}</p>
+        <p><strong>Children:</strong> ${data.children}</p>
+
+        <hr />
+
+        <p style="font-size: 14px; color: gray;">
+          This booking was made on Abok Adventures website.
+        </p>
+      </div>
+    `,
+  });
 };
