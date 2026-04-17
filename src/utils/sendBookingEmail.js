@@ -30,3 +30,37 @@ export const sendBookingEmail = async (data) => {
     `,
   });
 };
+
+// approval email
+export const sendApprovalEmail = async (data) => {
+  const response = await resend.emails.send({
+    from: "Abok Adventures <info@abokadventures.com>",
+    to: [data.email],
+    subject: `Your Safari Booking is Confirmed 🎉`,
+
+    html: `
+      <div style="font-family: Arial; padding: 20px;">
+        <h2 style="color:#16a34a;">Booking Confirmed 🎉</h2>
+
+        <p>Hi ${data.name},</p>
+
+        <p>Your booking for <strong>${data.safari?.safari_title || data.safariTitle}</strong> has been <strong>approved</strong>.</p>
+
+        <p><strong>Travel Date:</strong> ${new Date(data.travelDate).toDateString()}</p>
+        <p><strong>Guests:</strong> ${data.adults} Adults, ${data.children} Children</p>
+
+        <br/>
+
+        <p>We will contact you shortly with more details.</p>
+
+        <hr/>
+
+        <p style="font-size: 14px; color: gray;">
+          Abok Adventures Team
+        </p>
+      </div>
+    `,
+  });
+
+  console.log("APPROVAL EMAIL:", response);
+};

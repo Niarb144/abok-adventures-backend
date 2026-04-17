@@ -50,8 +50,15 @@ router.patch("/:id", async (req, res) => {
       { new: true }
     ).populate("safari");
 
+    // ✅ SEND EMAIL ONLY WHEN APPROVED
+    if (status === "confirmed") {
+      await sendApprovalEmail(booking);
+    }
+
     res.json(booking);
+
   } catch (err) {
+    console.error("PATCH ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 });
