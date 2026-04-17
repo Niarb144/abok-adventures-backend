@@ -4,14 +4,21 @@ import { sendBookingEmail } from "../utils/sendBookingEmail.js";
 
 const router = express.Router();
 
-// Create booking
+// Create booking and send email
 router.post("/", async (req, res) => {
   try {
     const booking = new Booking(req.body);
+
+    // 1. Save to DB
     const saved = await booking.save();
 
+    // 2. Send email
+    await sendBookingEmail(saved);
+
     res.status(201).json(saved);
+
   } catch (error) {
+    console.error("BOOKING ERROR:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -59,23 +66,5 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// SEND EMAIL NOTIFICATION
-router.post("/", async (req, res) => {
-  try {
-    const booking = req.body;
-
-    // Save if needed
-    // await Booking.create(booking);
-
-    // Send email via Resend
-    await sendBookingEmail(booking);
-
-    res.status(200).json({ message: "Booking successful" });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to process booking" });
-  }
-});
 
 export default router;
