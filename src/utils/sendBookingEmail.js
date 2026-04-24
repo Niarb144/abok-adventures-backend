@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const sendBookingEmail = async (data) => {
   await resend.emails.send({
     from: "Abok Adventures <info@abokadventures.com>",
-    to: ["info@abokadventures.com"], // you receive booking
+    to: ["niarbyddet@gmail.com"], // you receive booking
     subject: `New Booking - ${data.safariTitle}`,
 
     html: `
